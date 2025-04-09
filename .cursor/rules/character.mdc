@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+The following rules must be read before working with them.
+ - [rules.md](mdc:.cursor/rules.md) `/.cursor/rules.md`
+
+Developer
+ - [README.md](mdc:docs/Developer/README.md) `/docs/Developer/README.md`
+
+EnvSet
+ - [README.md](mdc:docs/EnvSet/README.md) `/docs/EnvSet/README.md`
+
+GuideLine
+ - [README.md](mdc:docs/GuideLine/README.md) `/docs/GuideLine/README.md`
+

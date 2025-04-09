@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHO - Personal Portfolio</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#00BD53',secondary:'#4A6CF7'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        
+        body {
+            font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0) 100%);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .custom-checkbox:checked {
+            background-color: #00BD53;
+            border-color: #00BD53;
+        }
+        
+        .custom-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        
+        input:focus, textarea:focus {
+            outline: 2px solid rgba(0, 189, 83, 0.3);
+            border-color: #00BD53;
+        }
+        
+        @media (max-width: 767px) {
+            .container {
+                width: 92%;
+                max-width: 350px;
+                padding: 16px;
+            }
+            h1 { font-size: 32px; }
+            h2 { font-size: 24px; }
+            h3 { font-size: 20px; }
+            p { font-size: 15px; }
+        }
+        
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .container {
+                width: 94%;
+                max-width: 720px;
+                padding: 24px;
+            }
+            h1 { font-size: 36px; }
+            h2 { font-size: 28px; }
+            h3 { font-size: 22px; }
+            p { font-size: 16px; }
+        }
+        
+        @media (min-width: 1024px) {
+            .container {
+                width: 96%;
+                max-width: 1200px;
+                padding: 32px;
+            }
+            h1 { font-size: 42px; }
+            h2 { font-size: 32px; }
+            h3 { font-size: 24px; }
+            p { font-size: 16px; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="w-full bg-white shadow-sm fixed top-0 left-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-['Pacifico'] text-primary">SHO</a>
+            
+            <!-- Mobile Menu Button -->
+            <div class="block md:hidden">
+                <button id="mobile-menu-button" class="w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary focus:outline-none !rounded-button">
+                    <i class="ri-menu-line text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">自己紹介</a>
+                <a href="#skills" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">スキル</a>
+                <a href="#projects" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">プロジェクト</a>
+                <a href="#contact" class="text-gray-700 hover:text-primary font-medium whitespace-nowrap">お問い合わせ</a>
+            </nav>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden bg-white w-full shadow-lg absolute top-full left-0 py-4 px-4 md:hidden">
+            <div class="flex flex-col space-y-4">
+                <a href="#about" class="text-gray-700 hover:text-primary font-medium py-2">自己紹介</a>
+                <a href="#skills" class="text-gray-700 hover:text-primary font-medium py-2">スキル</a>
+                <a href="#projects" class="text-gray-700 hover:text-primary font-medium py-2">プロジェクト</a>
+                <a href="#contact" class="text-gray-700 hover:text-primary font-medium py-2">お問い合わせ</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="w-full pt-32 pb-20 relative overflow-hidden" style="background-image: url('https://public.readdy.ai/ai/img_res/4dcbd353303dbc3d6bc4f2e4253f9f15.jpg'); background-size: cover; background-position: center;">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="w-full md:w-1/2 hero-gradient p-8 rounded-lg">
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
+                        SHO
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-700 mb-6">
+                        ブロックチェーン開発 & コミュニティ構築
+                    </p>
+                    <p class="text-gray-600 mb-8">
+                        ブロックチェーン特化型の開発とコミュニティ構築に情熱を注ぐ
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact" class="bg-primary text-white px-6 py-3 rounded-button font-medium transition duration-300 hover:bg-opacity-90 whitespace-nowrap !rounded-button">お問い合わせ</a>
+                        <a href="#projects" class="bg-white text-gray-800 border border-gray-300 px-6 py-3 rounded-button font-medium transition duration-300 hover:bg-gray-100 whitespace-nowrap !rounded-button">プロジェクト一覧</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="w-full md:w-1/2">
+                    <img src="https://public.readdy.ai/ai/img_res/e0fdd5659277c6240ae7699c01d2031b.jpg" alt="SHO" class="w-full h-auto rounded-lg shadow-lg object-cover">
+                </div>
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 flex items-center">
+                        <span class="w-10 h-10 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-3">
+                            <i class="ri-user-line text-primary"></i>
+                        </span>
+                        自己紹介
+                    </h2>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-3">日本語</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            ブロックチェーン技術、特にSolanaに特化した開発者兼コミュニティマネージャーです。Web開発とブロックチェーン統合のバックグラウンドを持ち、革新的なソリューションの作成とコミュニティの成長促進に注力しています。
+                        </p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-3">English</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            I am SHO, a passionate developer and community manager specializing in blockchain technology, particularly Solana. With a strong background in web development and blockchain integration, I focus on creating innovative solutions and fostering community growth.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">現在の取り組み</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 flex items-center justify-center text-primary mr-2 mt-0.5">
+                                    <i class="ri-check-line"></i>
+                                </span>
+                                <span class="text-gray-600">Solanaエコシステム開発</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 flex items-center justify-center text-primary mr-2 mt-0.5">
+                                    <i class="ri-check-line"></i>
+                                </span>
+                                <span class="text-gray-600">コミュニティ構築と管理</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 flex items-center justify-center text-primary mr-2 mt-0.5">
+                                    <i class="ri-check-line"></i>
+                                </span>
+                                <span class="text-gray-600">Web3アプリケーション開発</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="w-6 h-6 flex items-center justify-center text-primary mr-2 mt-0.5">
+                                    <i class="ri-check-line"></i>
+                                </span>
+                                <span class="text-gray-600">ブロックチェーン教育とアウトリーチ</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">スキル</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    ブロックチェーン技術とWeb開発の分野で培った専門知識とスキルセット
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Skill Card 1 -->
+                <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300 skill-card">
+                    <div class="w-14 h-14 flex items-center justify-center bg-primary bg-opacity-10 rounded-lg mb-6">
+                        <i class="ri-blockchain-line text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">ブロックチェーン開発</h3>
+                    <p class="text-gray-600 mb-4">
+                        Solanaを中心としたブロックチェーンプラットフォームでの開発経験。スマートコントラクト設計と実装の専門知識。
+                    </p>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Solana</span>
+                            <span class="text-sm text-gray-600">95%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">TON</span>
+                            <span class="text-sm text-gray-600">30%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 30%"></div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Ethereum</span>
+                            <span class="text-sm text-gray-600">5%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 5%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skill Card 2 -->
+                <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300 skill-card">
+                    <div class="w-14 h-14 flex items-center justify-center bg-primary bg-opacity-10 rounded-lg mb-6">
+                        <i class="ri-code-s-slash-line text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Web開発</h3>
+                    <p class="text-gray-600 mb-4">
+                        モダンなフロントエンド技術とバックエンドシステムを組み合わせた、Web3アプリケーション開発の専門知識。
+                    </p>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">React</span>
+                            <span class="text-sm text-gray-600">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Next.js</span>
+                            <span class="text-sm text-gray-600">60%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">PHP</span>
+                            <span class="text-sm text-gray-600">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skill Card 3 -->
+                <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition duration-300 skill-card">
+                    <div class="w-14 h-14 flex items-center justify-center bg-primary bg-opacity-10 rounded-lg mb-6">
+                        <i class="ri-team-line text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">コミュニティ管理</h3>
+                    <p class="text-gray-600 mb-4">
+                        ブロックチェーンコミュニティの構築、成長、エンゲージメント戦略の設計と実施の経験。
+                    </p>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Discordサーバ構築</span>
+                            <span class="text-sm text-gray-600">95%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">イベント管理</span>
+                            <span class="text-sm text-gray-600">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">コンテンツ戦略</span>
+                            <span class="text-sm text-gray-600">45%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 45%"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">プロジェクト</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    これまでの参加プロジェクトの紹介です。
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300 project-card">
+                    <img src="https://public.readdy.ai/ai/img_res/ac1484d9b42910d3409b945d76925538.jpg" alt="Solana BCG SCANNER" class="w-full h-48 object-cover object-top">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Solana BCG "SCANNER"</h3>
+                        <p class="text-gray-600 mb-4">
+                            バーコードスキャンすることでNFTを獲得できるSolanaゲーム。コミュニティマネージャーとして参加。
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">Solana</span>
+                            <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">コミュニティ管理</span>
+                        </div>
+                        <a href="https://www.scannner.io" target="_blank" class="inline-flex items-center text-primary hover:text-primary-dark font-medium">
+                            プロジェクトを見る
+                            <i class="ri-arrow-right-line ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300 project-card">
+                    <img src="https://public.readdy.ai/ai/img_res/ea2898b4819eedb0f44fe9d2b7648b02.jpg" alt="DeFi Platform" class="w-full h-48 object-cover object-top">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">SuperteamJapan</h3>
+                        <p class="text-gray-600 mb-4">
+                            日本のSolana特化の活動コミュニティ。Memberとしてイベントのサポート。
+                        </p>
+                        <!--
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">DeFi</span>
+                            <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">Rust</span>
+                            <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">React</span>
+                        </div>
+                         -->
+                        <a href="https://superteamjp.fun/" class="inline-flex items-center text-primary hover:text-primary-dark font-medium">
+                            プロジェクトを見る
+                            <i class="ri-arrow-right-line ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300 project-card">
+                    <img src="https://public.readdy.ai/ai/img_res/e2cb8e38229d1ec04b8bc86741f2a9f1.jpg" alt="NFT Marketplace" class="w-full h-48 object-cover object-top">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Comming Soon</h3>
+                        <p class="text-gray-600 mb-4">
+                            <!-- 日本の伝統文化とデジタルアートを融合したNFTマーケットプレイス。スマートコントラクトとUIデザインを担当。 -->
+                        </p>
+                        <!--
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">NFT</span>
+                            <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">Solana</span>
+                            <span class="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">TypeScript</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center text-primary hover:text-primary-dark font-medium">
+                            プロジェクトを見る
+                            <i class="ri-arrow-right-line ml-2"></i>
+                        </a>
+                         -->
+                    </div>
+                </div>
+            
+            <div class="text-center mt-12">
+                <a href="https://github.com/shoya-sue" target="_blank" class="inline-flex items-center bg-gray-800 text-white px-6 py-3 rounded-button font-medium transition duration-300 hover:bg-gray-700 whitespace-nowrap !rounded-button">
+                    <i class="ri-github-fill mr-2"></i>
+                    GitHubでもっと見る
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">お問い合わせ</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    <!-- プロジェクトの相談、協業のご提案、または単にブロックチェーン技術について話し合いたい場合は、お気軽にご連絡ください。 -->
+                </p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <!-- 
+                <div class="w-full lg:w-1/2">
+                    <form class="bg-white p-8 rounded-lg shadow-sm">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-medium mb-2">お名前</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="山田 太郎">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">メールアドレス</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="example@email.com">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="subject" class="block text-gray-700 font-medium mb-2">件名</label>
+                            <input type="text" id="subject" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="お問い合わせの件名">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-medium mb-2">メッセージ</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-primary" placeholder="お問い合わせ内容をご記入ください"></textarea>
+                        </div>
+                        
+                        <div class="mb-6 flex items-start">
+                            <input type="checkbox" id="privacy" class="custom-checkbox mr-3 mt-1">
+                            <label for="privacy" class="text-gray-600 text-sm">
+                                プライバシーポリシーに同意します。お問い合わせいただいた内容は、返信のためにのみ使用されます。
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-primary text-white py-3 px-6 rounded-button font-medium transition duration-300 hover:bg-opacity-90 whitespace-nowrap !rounded-button">
+                            送信する
+                        </button>
+                    </form>
+                </div>
+                -->
+                
+                <div class="w-full lg:w-1/2">
+                    <div class="bg-white p-8 rounded-lg shadow-sm h-full">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-6">連絡先情報</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-4">
+                                    <i class="ri-mail-line text-xl text-primary"></i>
+                                </div>
+                                <!-- <div>
+                                    <h4 class="text-gray-700 font-medium mb-1">メール</h4>
+                                    <a href="mailto:contact@sho43.xyz" class="text-gray-600 hover:text-primary">contact@sho43.xyz</a>
+                                </div> -->
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-4">
+                                    <i class="ri-twitter-x-line text-xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-gray-700 font-medium mb-1">Twitter</h4>
+                                    <a href="https://x.com/be_into_net" target="_blank" class="text-gray-600 hover:text-primary">@be_into_net</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-4">
+                                    <i class="ri-github-line text-xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-gray-700 font-medium mb-1">GitHub</h4>
+                                    <a href="https://github.com/shoya-sue" target="_blank" class="text-gray-600 hover:text-primary">shoya-sue</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 flex items-center justify-center bg-primary bg-opacity-10 rounded-full mr-4">
+                                    <i class="ri-links-line text-xl text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-gray-700 font-medium mb-1">Linktree</h4>
+                                    <a href="https://linktr.ee/be_into_net" target="_blank" class="text-gray-600 hover:text-primary">be_into_net</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">ソーシャルメディア</h3>
+                            <div class="flex space-x-4">
+                                <a href="https://x.com/be_into_net" target="_blank" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition duration-300">
+                                    <i class="ri-twitter-x-line text-gray-700"></i>
+                                </a>
+                                <a href="https://github.com/shoya-sue" target="_blank" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition duration-300">
+                                    <i class="ri-github-line text-gray-700"></i>
+                                </a>
+                                <!--
+                                <a href="#" target="_blank" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition duration-300">
+                                    <i class="ri-linkedin-line text-gray-700"></i>
+                                </a>
+                                <a href="#" target="_blank" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition duration-300">
+                                    <i class="ri-discord-line text-gray-700"></i>
+                                </a>
+                                <a href="#" target="_blank" class="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition duration-300">
+                                    <i class="ri-telegram-line text-gray-700"></i>
+                                </a>
+                                -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <a href="#" class="text-2xl font-['Pacifico'] text-white mb-2 inline-block">SHO</a>
+                    <p class="text-gray-400 max-w-md">
+                        ブロックチェーン技術とWeb開発の専門家。革新的なソリューションとコミュニティ構築に情熱を注いでいます。
+                    </p>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-8">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">リンク</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#about" class="text-gray-400 hover:text-white transition duration-300">自己紹介</a></li>
+                            <li><a href="#skills" class="text-gray-400 hover:text-white transition duration-300">スキル</a></li>
+                            <li><a href="#projects" class="text-gray-400 hover:text-white transition duration-300">プロジェクト</a></li>
+                            <li><a href="#contact" class="text-gray-400 hover:text-white transition duration-300">お問い合わせ</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">連絡先</h4>
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="mailto:contact@sho43.dev" class="text-gray-400 hover:text-white transition duration-300 flex items-center">
+                                    <i class="ri-mail-line mr-2"></i> Email
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://x.com/be_into_net" target="_blank" class="text-gray-400 hover:text-white transition duration-300 flex items-center">
+                                    <i class="ri-twitter-x-line mr-2"></i> Twitter
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/shoya-sue" target="_blank" class="text-gray-400 hover:text-white transition duration-300 flex items-center">
+                                    <i class="ri-github-line mr-2"></i> GitHub
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://linktr.ee/be_into_net" target="_blank" class="text-gray-400 hover:text-white transition duration-300 flex items-center">
+                                    <i class="ri-links-line mr-2"></i> Linktree
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                    &copy; 2025 SHO43. All rights reserved.
+                </p>
+                <p class="text-gray-400 text-sm">
+                    This project is licensed under the MIT License
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            // Change icon based on menu state
+            const icon = mobileMenuButton.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('ri-close-line');
+                icon.classList.add('ri-menu-line');
+            } else {
+                icon.classList.remove('ri-menu-line');
+                icon.classList.add('ri-close-line');
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                const icon = mobileMenuButton.querySelector('i');
+                icon.classList.remove('ri-close-line');
+                icon.classList.add('ri-menu-line');
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
