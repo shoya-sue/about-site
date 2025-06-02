@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
+import { useTranslation } from 'react-i18next';
 
 export default function Contact() {
+  const { t } = useTranslation();
+  const [state, handleSubmit] = useForm(process.env.NEXT_PUBLIC_FORMSPREE_ID || 'xgegrdpz');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,22 +16,33 @@ export default function Contact() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // フォーム送信ロジックはここに実装
-    console.log('Form submitted:', formData);
-    alert('お問い合わせありがとうございます。近日中にご連絡いたします。');
-  };
+  if (state.succeeded) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold mb-8">{t('contact.title')}</h1>
+        <div className="bg-green-50 dark:bg-green-900 p-6 rounded-lg text-center">
+          <h2 className="text-2xl font-semibold text-green-700 dark:text-green-300 mb-4">
+            {t('contact.successMessage')}
+          </h2>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg"
+          >
+            {t('contact.submit')}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">Contact</h1>
+      <h1 className="text-4xl font-bold mb-8">{t('contact.title')}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <h2 className="text-2xl font-semibold mb-4">お問い合わせ</h2>
+          <h2 className="text-2xl font-semibold mb-4">{t('contact.title')}</h2>
           <p className="mb-6">
-            プロジェクトのご相談、講演依頼、その他のお問い合わせは下記フォームからお願いします。
-            48時間以内に返信いたします。
+            {t('contact.description')}
           </p>
           <div className="space-y-4">
             <div>
@@ -44,7 +59,7 @@ export default function Contact() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium mb-1">
-                お名前
+                {t('contact.name')}
               </label>
               <input
                 type="text"
@@ -58,7 +73,7 @@ export default function Contact() {
             </div>
             <div>
               <label htmlFor="email" className="block text-sm font-medium mb-1">
-                メールアドレス
+                {t('contact.email')}
               </label>
               <input
                 type="email"
@@ -69,10 +84,11 @@ export default function Contact() {
                 className="w-full px-4 py-2 border rounded-md"
                 required
               />
+              <ValidationError prefix="Email" field="email" errors={state.errors} />
             </div>
             <div>
               <label htmlFor="message" className="block text-sm font-medium mb-1">
-                メッセージ
+                {t('contact.message')}
               </label>
               <textarea
                 id="message"
@@ -83,13 +99,26 @@ export default function Contact() {
                 className="w-full px-4 py-2 border rounded-md"
                 required
               />
+              <ValidationError prefix="Message" field="message" errors={state.errors} />
             </div>
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg"
+              disabled={state.submitting}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg disabled:opacity-50"
             >
-              送信する
+              {state.submitting ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  送信中...
+                </span>
+              ) : (
+                t('contact.submit')
+              )}
             </button>
+            <ValidationError errors={state.errors} />
           </form>
         </div>
       </div>

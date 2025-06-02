@@ -4,7 +4,9 @@
     "about": "自己紹介",
     "projects": "プロジェクト",
     "blog": "ブログ",
-    "contact": "お問い合わせ"
+    "contact": "お問い合わせ",
+    "schedule": "ミーティング予約",
+    "gallery": "ギャラリー"
   },
   "home": {
     "title": "SHO43 ポートフォリオ",
@@ -57,6 +59,21 @@
     "message": "メッセージ",
     "submit": "送信する",
     "successMessage": "お問い合わせありがとうございます。近日中にご連絡いたします。"
+  },
+  "calendly": {
+    "title": "ミーティングの予約",
+    "description": "下記のカレンダーから、ミーティングの日時を選択してください。",
+    "missingUsername": "Calendlyのユーザー名が設定されていません。環境変数NEXT_PUBLIC_CALENDLY_USERNAMEを設定してください。",
+    "button": "ミーティングを予約",
+    "loading": "カレンダーを読み込み中...",
+    "success": "予約が完了しました。確認メールをご確認ください。",
+    "error": "予約中にエラーが発生しました。時間をおいて再度お試しください。"
+  },
+  "gallery": {
+    "title": "ギャラリー",
+    "description": "ブロックチェーン技術やコミュニティイベントの写真を閲覧できます。画像をクリックすると拡大表示されます。",
+    "empty": "現在、表示できる画像がありません。",
+    "imageCount": "全 {count} 枚の画像"
   },
   "footer": {
     "rights": "All rights reserved."

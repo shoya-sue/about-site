@@ -16,7 +16,9 @@ export default function Header() {
     { name: t('navigation.about'), href: '/about' },
     { name: t('navigation.projects'), href: '/projects' },
     { name: t('navigation.blog'), href: '/blog' },
+    { name: t('navigation.gallery'), href: '/gallery' },
     { name: t('navigation.contact'), href: '/contact' },
+    { name: t('navigation.schedule'), href: '/schedule' },
   ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);

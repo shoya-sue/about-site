@@ -4,7 +4,9 @@
     "about": "About",
     "projects": "Projects",
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "schedule": "Schedule",
+    "gallery": "Gallery"
   },
   "home": {
     "title": "SHO43 Portfolio",
@@ -57,6 +59,21 @@
     "message": "Message",
     "submit": "Submit",
     "successMessage": "Thank you for your message. I will get back to you soon."
+  },
+  "calendly": {
+    "title": "Schedule a Meeting",
+    "description": "Select a date and time from the calendar below to schedule a meeting.",
+    "missingUsername": "Calendly username is not configured. Please set the NEXT_PUBLIC_CALENDLY_USERNAME environment variable.",
+    "button": "Schedule Meeting",
+    "loading": "Loading calendar...",
+    "success": "Your meeting has been scheduled. Please check your email for confirmation.",
+    "error": "An error occurred while scheduling your meeting. Please try again later."
+  },
+  "gallery": {
+    "title": "Gallery",
+    "description": "Browse photos of blockchain technology and community events. Click on an image to view it in full size.",
+    "empty": "There are no images to display at the moment.",
+    "imageCount": "{count} images in total"
   },
   "footer": {
     "rights": "All rights reserved."

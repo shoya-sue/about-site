@@ -55,25 +55,59 @@ NEXT_PUBLIC_FORMSPREE_ID=your_formspree_id
 NEXT_PUBLIC_CALENDLY_USERNAME=your_calendly_username
 ```
 
+### Notionデータベースの設定
+ブログ機能のために、以下のプロパティを持つNotionデータベースを作成してください：
+- `Title`: タイトル (title)
+- `Excerpt`: 抜粋 (rich_text)
+- `Date`: 公開日 (date)
+- `Category`: カテゴリー (select)
+- `Cover`: カバー画像 (files)
+- `Slug`: スラッグ (rich_text)
+- `Published`: 公開状態 (checkbox)
+
 ## 技術スタック
 - **フロントエンド**: Next.js 14 (App Router)、React、TypeScript
 - **スタイリング**: Tailwind CSS
 - **状態管理**: React Hooks
 - **多言語対応**: i18next
 - **フォーム処理**: Formspree
+- **コンテンツ管理**: Notion API
+- **マークダウン**: React Markdown
 - **アニメーション**: Framer Motion
+- **フォント**: Inter (英語)、Noto Sans JP (日本語)
+- **パフォーマンス計測**: Web Vitals
+- **テスト**: Jest、React Testing Library
 
 ## 実装済み機能
 - 基本的なページ構造 (Home, About, Projects, Blog, Contact)
 - レスポンシブデザイン
 - ダークモード対応
-- 多言語対応
+- 多言語対応（日本語・英語）
+- Formspreeを使用したコンタクトフォーム
+- Notion APIを使用したブログ機能
+- SEO対応（メタタグ、OGP、Twitter Card）
+- アクセシビリティ対応（スキップリンク、ARIAラベル）
+- Calendlyを使用したミーティング予約機能
+- 画像ギャラリー（ライトボックス機能付き）
+- パフォーマンス最適化（遅延ロード、画像最適化、Web Vitals計測）
+- テスト実装（一部のコンポーネントとユーティリティ関数のテスト）
 
 ## 今後の実装予定
-- Notion APIを使用したブログ機能
-- カレンダー予約機能 (Calendly)
-- 画像ギャラリー
-- パフォーマンス最適化
+1. 残りのコンポーネントのテスト実装
+2. E2Eテストの追加
+3. インテグレーションテストの追加
+
+## テスト実行
+```bash
+# すべてのテストを実行
+npm test
+
+# ファイル変更を監視しながらテストを実行
+npm run test:watch
+
+# カバレッジレポートを生成
+npm run test:coverage
+```
 
 ## License / ライセンス
 This project is licensed under the MIT License - see the LICENSE file for details.
