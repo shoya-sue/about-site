@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Github, Twitter, Linkedin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const socialLinks = [
   {
@@ -22,14 +23,16 @@ const socialLinks = [
   },
 ];
 
-const footerNavigation = [
-  { name: 'About', href: '/about' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '/contact' },
-];
-
 export default function Footer() {
+  const { t } = useTranslation();
+
+  const footerNavigation = [
+    { name: t('navigation.about'), href: '/about' },
+    { name: t('navigation.projects'), href: '/projects' },
+    { name: t('navigation.blog'), href: '/blog' },
+    { name: t('navigation.contact'), href: '/contact' },
+  ];
+
   return (
     <footer className="bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -65,7 +68,7 @@ export default function Footer() {
 
         <div className="mt-8 text-center text-gray-400 dark:text-gray-500">
           <p>
-            © {new Date().getFullYear()} Portfolio. All rights reserved.
+            © {new Date().getFullYear()} Portfolio. {t('footer.rights')}
           </p>
         </div>
       </div>

@@ -1,0 +1,64 @@
+{
+  "navigation": {
+    "home": "ホーム",
+    "about": "自己紹介",
+    "projects": "プロジェクト",
+    "blog": "ブログ",
+    "contact": "お問い合わせ"
+  },
+  "home": {
+    "title": "SHO43 ポートフォリオ",
+    "subtitle": "ブロックチェーン技術スペシャリスト & コミュニティマネージャー",
+    "cta": {
+      "projects": "プロジェクトを見る",
+      "contact": "お問い合わせ"
+    }
+  },
+  "about": {
+    "title": "自己紹介",
+    "profile": {
+      "title": "プロフィール",
+      "description1": "ブロックチェーン技術、特にSolana関連の開発に特化したエンジニアです。コミュニティマネージャーとしても活動し、技術者と非技術者の架け橋となることを目指しています。",
+      "description2": "新しい技術の習得と実装に情熱を持ち、オープンソースプロジェクトへの貢献も積極的に行っています。"
+    },
+    "skills": {
+      "title": "スキル",
+      "frontend": "フロントエンド開発 (React, Next.js, TypeScript)",
+      "blockchain": "ブロックチェーン開発 (Solana, Ethereum)",
+      "smartContract": "スマートコントラクト開発 (Rust, Solidity)",
+      "community": "コミュニティ管理・運営",
+      "documentation": "技術ドキュメント作成"
+    }
+  },
+  "projects": {
+    "title": "プロジェクト",
+    "wallet": {
+      "title": "ブロックチェーンウォレット",
+      "description": "Solanaブロックチェーン用のウェブウォレットアプリケーション。トークン管理、NFT表示、トランザクション履歴の表示機能を実装。"
+    },
+    "marketplace": {
+      "title": "NFTマーケットプレイス",
+      "description": "デジタルアートのNFTを売買できるマーケットプレイス。オークション機能やクリエイター報酬の自動分配機能を実装。"
+    },
+    "dashboard": {
+      "title": "DeFiダッシュボード",
+      "description": "複数のDeFiプロトコルの資産を一括管理・可視化するダッシュボード。リアルタイムのパフォーマンス分析機能を実装。"
+    }
+  },
+  "blog": {
+    "title": "ブログ",
+    "readMore": "続きを読む →"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "description": "プロジェクトのご相談、講演依頼、その他のお問い合わせは下記フォームからお願いします。48時間以内に返信いたします。",
+    "email": "メールアドレス",
+    "name": "お名前",
+    "message": "メッセージ",
+    "submit": "送信する",
+    "successMessage": "お問い合わせありがとうございます。近日中にご連絡いたします。"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+} 

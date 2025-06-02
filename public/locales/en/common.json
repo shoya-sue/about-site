@@ -1,0 +1,64 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "SHO43 Portfolio",
+    "subtitle": "Blockchain Technology Specialist & Community Manager",
+    "cta": {
+      "projects": "View Projects",
+      "contact": "Contact Me"
+    }
+  },
+  "about": {
+    "title": "About Me",
+    "profile": {
+      "title": "Profile",
+      "description1": "I am an engineer specialized in blockchain technology, particularly Solana-related development. I also work as a community manager, aiming to bridge the gap between technical and non-technical people.",
+      "description2": "I am passionate about learning and implementing new technologies, and actively contribute to open source projects."
+    },
+    "skills": {
+      "title": "Skills",
+      "frontend": "Frontend Development (React, Next.js, TypeScript)",
+      "blockchain": "Blockchain Development (Solana, Ethereum)",
+      "smartContract": "Smart Contract Development (Rust, Solidity)",
+      "community": "Community Management",
+      "documentation": "Technical Documentation"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "wallet": {
+      "title": "Blockchain Wallet",
+      "description": "A web wallet application for the Solana blockchain. Implemented token management, NFT display, and transaction history viewing features."
+    },
+    "marketplace": {
+      "title": "NFT Marketplace",
+      "description": "A marketplace for buying and selling digital art NFTs. Implemented auction functionality and automatic creator royalty distribution."
+    },
+    "dashboard": {
+      "title": "DeFi Dashboard",
+      "description": "A dashboard for managing and visualizing assets across multiple DeFi protocols. Implemented real-time performance analysis functionality."
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "readMore": "Read More →"
+  },
+  "contact": {
+    "title": "Contact",
+    "description": "For project inquiries, speaking engagements, or any other questions, please use the form below. I will respond within 48 hours.",
+    "email": "Email",
+    "name": "Name",
+    "message": "Message",
+    "submit": "Submit",
+    "successMessage": "Thank you for your message. I will get back to you soon."
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+} 

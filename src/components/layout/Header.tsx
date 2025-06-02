@@ -3,18 +3,21 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Menu, Moon, Sun } from 'lucide-react';
-
-const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Contact', href: '/contact' },
-];
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../ui/LanguageSwitcher';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { t } = useTranslation();
+
+  const navigation = [
+    { name: t('navigation.home'), href: '/' },
+    { name: t('navigation.about'), href: '/about' },
+    { name: t('navigation.projects'), href: '/projects' },
+    { name: t('navigation.blog'), href: '/blog' },
+    { name: t('navigation.contact'), href: '/contact' },
+  ];
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleTheme = () => {
@@ -46,8 +49,9 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Theme Toggle & Mobile Menu Button */}
+          {/* Theme Toggle, Language Switcher & Mobile Menu Button */}
           <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
