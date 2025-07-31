@@ -187,19 +187,20 @@ export default function ParticleScene() {
     const timeline = gsap.timeline({ repeat: -1 })
     timelineRef.current = timeline
 
+    // 初期状態：パーティクルを配置
+    const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
+    const initialTextPositions = getTextPositions('SHO43', 12)
+    for (let i = 0; i < Math.min(initialTextPositions.length, maxParticleCount); i++) {
+      posAttr.setXYZ(i, initialTextPositions[i].x, initialTextPositions[i].y, initialTextPositions[i].z)
+    }
+    posAttr.needsUpdate = true
+
     // フェーズ1: イントロ（SHO43の形成）- 0-5秒
     timeline.to(material.uniforms.uProgress, {
       value: 1,
       duration: 3,
       ease: "power2.inOut",
       onStart: () => {
-        const textPositions = getTextPositions('SHO43', 12)
-        const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
-        
-        for (let i = 0; i < Math.min(textPositions.length, maxParticleCount); i++) {
-          posAttr.setXYZ(i, textPositions[i].x, textPositions[i].y, textPositions[i].z)
-        }
-        posAttr.needsUpdate = true
         setCurrentPhase(0)
       }
     })
@@ -367,11 +368,11 @@ export default function ParticleScene() {
     })
     .to({}, { duration: 1 })
 
-    // フェーズ6: アウトロ（粒子の爆発）- 25-30秒
+    // フェーズ6: アウトロ（粒子の分散）- 25-28秒
     .to(material.uniforms.uProgress, {
       value: 0,
-      duration: 3,
-      ease: "power2.in",
+      duration: 2,
+      ease: "power2.inOut",
       onStart: () => {
         const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
         const currentPositions = []
@@ -385,9 +386,9 @@ export default function ParticleScene() {
           })
         }
         
-        // 爆発位置を設定
-        const explodedPositions = getExplodedPositions(currentPositions)
-        explodedPositions.forEach((pos, i) => {
+        // 分散位置を設定（爆発ではなく、優雅に広がる）
+        const dispersedPositions = getExplodedPositions(currentPositions, 30)
+        dispersedPositions.forEach((pos, i) => {
           if (i < maxParticleCount) {
             posAttr.setXYZ(i, pos.x, pos.y, pos.z)
           }
@@ -395,19 +396,36 @@ export default function ParticleScene() {
         
         posAttr.needsUpdate = true
         setCurrentPhase(5)
-      },
-      onComplete: () => {
-        // 初期位置にリセット
-        const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
-        const initialPositions = getRandomPositions(maxParticleCount)
-        
-        for (let i = 0; i < maxParticleCount; i++) {
-          posAttr.setXYZ(i, initialPositions[i].x, initialPositions[i].y, initialPositions[i].z)
-        }
-        posAttr.needsUpdate = true
       }
     })
-    .to({}, { duration: 2 })
+    
+    // フェーズ7: 初期状態への遷移 - 28-30秒
+    .to(material.uniforms.uProgress, {
+      value: 1,
+      duration: 2,
+      ease: "power2.inOut",
+      onStart: () => {
+        const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
+        
+        // 次のループのためにSHO43の位置を事前に設定
+        const textPositions = getTextPositions('SHO43', 12)
+        for (let i = 0; i < Math.min(textPositions.length, maxParticleCount); i++) {
+          posAttr.setXYZ(i, textPositions[i].x, textPositions[i].y, textPositions[i].z)
+        }
+        
+        // 残りのパーティクルは周囲にランダムに配置
+        const randomPositions = getRandomPositions(maxParticleCount - textPositions.length, 40)
+        for (let i = textPositions.length; i < maxParticleCount; i++) {
+          const idx = i - textPositions.length
+          if (idx < randomPositions.length) {
+            posAttr.setXYZ(i, randomPositions[idx].x, randomPositions[idx].y, randomPositions[idx].z)
+          }
+        }
+        
+        posAttr.needsUpdate = true
+        setCurrentPhase(0)
+      }
+    })
 
     // アニメーションループ
     const clock = new THREE.Clock()
