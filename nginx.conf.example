@@ -1,7 +1,7 @@
 server {
     listen 80;
-    server_name your-domain.com;
-    root /var/www/vhosts/about-site;
+    server_name about.sho43.xyz;
+    root /var/www/vhosts/about.sho43.xyz;
     
     # セキュリティヘッダー
     add_header X-Frame-Options "SAMEORIGIN" always;

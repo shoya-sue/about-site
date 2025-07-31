@@ -1,8 +1,8 @@
 <VirtualHost *:80>
-    ServerName your-domain.com
-    DocumentRoot /var/www/vhosts/about-site
+    ServerName about.sho43.xyz
+    DocumentRoot /var/www/vhosts/about.sho43.xyz
     
-    <Directory /var/www/vhosts/about-site>
+    <Directory /var/www/vhosts/about.sho43.xyz>
         Options -Indexes +FollowSymLinks
         AllowOverride All
         Require all granted
