@@ -43,7 +43,7 @@ SHO43（ブロックチェーン開発者/コミュニティマネージャー�
 
 ### デプロイ設定
 - 静的サイト生成が有効（next.config.jsで `output: 'export'`）
-- GitHub Actions経由で `/var/www/vhosts/about-site/` へ手動デプロイ
+- GitHub Actions経由で `/var/www/vhosts/about.sho43.xyz/` へ手動デプロイ
 - Apache/Nginx設定例を提供
 - 必要な環境変数: NOTION_API_KEY, NOTION_DATABASE_ID, NEXT_PUBLIC_FORMSPREE_ID
 
