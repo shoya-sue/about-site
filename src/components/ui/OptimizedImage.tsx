@@ -9,6 +9,7 @@ interface OptimizedImageProps extends Omit<ImageProps, 'onLoadingComplete'> {
   lowQualityPreview?: boolean;
   lazyBoundary?: string;
   fadeIn?: boolean;
+  className?: string;
 }
 
 /**
@@ -61,8 +62,7 @@ export default function OptimizedImage({
         lazyBoundary={lazyBoundary}
         className={cn(
           'transition-opacity duration-300',
-          isLoading ? 'opacity-0' : 'opacity-100',
-          props.className
+          isLoading ? 'opacity-0' : 'opacity-100'
         )}
         onLoadingComplete={handleLoadingComplete}
         onError={handleError}

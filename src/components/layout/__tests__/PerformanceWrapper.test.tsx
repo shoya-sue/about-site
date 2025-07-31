@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import PerformanceWrapper from '../PerformanceWrapper';
 
 // モックの設定
@@ -58,13 +58,13 @@ describe('PerformanceWrapper コンポーネント', () => {
     expect(screen.queryByTestId('fallback')).not.toBeInTheDocument();
 
     // 後片付け
-    delete window.requestIdleCallback;
+    (window as any).requestIdleCallback = undefined;
   });
 
   test('requestIdleCallbackが利用できない場合、setTimeout が使用される', async () => {
     // 元のrequestIdleCallbackを一時的に削除
     const originalRequestIdleCallback = window.requestIdleCallback;
-    delete window.requestIdleCallback;
+    (window as any).requestIdleCallback = undefined;
 
     render(
       <PerformanceWrapper priority={false}>
@@ -80,8 +80,10 @@ describe('PerformanceWrapper コンポーネント', () => {
       jest.advanceTimersByTime(1);
     });
 
-    // コンテンツが表示される
-    expect(screen.getByTestId('test-content')).toBeInTheDocument();
+    // 再レンダリングを待つ
+    await waitFor(() => {
+      expect(screen.getByTestId('test-content')).toBeInTheDocument();
+    });
 
     // 後片付け
     if (originalRequestIdleCallback) {
