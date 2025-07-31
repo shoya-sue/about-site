@@ -35,6 +35,6 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           source: "out/*"
-          target: "/var/www/vhosts/about-site"
+          target: "/var/www/vhosts/about.sho43.xyz"
           strip_components: 1
           rm: true

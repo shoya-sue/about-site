@@ -34,7 +34,7 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             # ディレクトリ作成
-            mkdir -p /var/www/vhosts/about-site
+            mkdir -p /var/www/vhosts/about.sho43.xyz
             
       - name: Copy files to VPS
         uses: appleboy/scp-action@v0.1.5
@@ -44,7 +44,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           source: ".next,public,package.json,package-lock.json,next.config.js"
-          target: "/var/www/vhosts/about-site"
+          target: "/var/www/vhosts/about.sho43.xyz"
           rm: true
       
       - name: Install dependencies and restart app
@@ -55,7 +55,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            cd /var/www/vhosts/about-site
+            cd /var/www/vhosts/about.sho43.xyz
             npm ci --production
             # PM2でアプリケーションを再起動
             pm2 restart about-site || pm2 start npm --name "about-site" -- start
