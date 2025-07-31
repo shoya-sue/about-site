@@ -18,7 +18,8 @@ export function getTextPositions(text: string, fontSize: number = 10): ParticleP
   context.fillStyle = '#000000'
   context.fillRect(0, 0, canvas.width, canvas.height)
   
-  context.font = `bold ${fontSize * 10}px Arial`
+  // より読みやすいフォント設定
+  context.font = `bold ${fontSize * 12}px "Helvetica Neue", Arial, sans-serif`
   context.fillStyle = '#FFFFFF'
   context.textAlign = 'center'
   context.textBaseline = 'middle'
@@ -130,13 +131,15 @@ export function lerpColor(color1: THREE.Color, color2: THREE.Color, factor: numb
   return new THREE.Color().lerpColors(color1, color2, factor)
 }
 
-// 時間に基づく色の変化
+// 時間に基づく色の変化（青・緑・紫のパレット）
 export function getTimeBasedColor(time: number): THREE.Color {
   const colors = [
-    new THREE.Color(0x0066ff), // 青
-    new THREE.Color(0x9933ff), // 紫
-    new THREE.Color(0xff33cc), // ピンク
-    new THREE.Color(0xff6600)  // オレンジ
+    new THREE.Color(0x0080ff), // 明るい青
+    new THREE.Color(0x00ff80), // 明るい緑
+    new THREE.Color(0x8000ff), // 明るい紫
+    new THREE.Color(0x00ffff), // シアン
+    new THREE.Color(0x80ff00), // ライムグリーン
+    new THREE.Color(0xff00ff)  // マゼンタ
   ]
   
   const phase = (time * 0.1) % colors.length

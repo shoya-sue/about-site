@@ -42,10 +42,10 @@ export default function ParticleScene() {
   useEffect(() => {
     if (!mountRef.current) return
 
-    // シーンのセットアップ
+    // シーンのセットアップ（ダークブルーの背景）
     const scene = new THREE.Scene()
-    scene.background = new THREE.Color(0x000814)
-    scene.fog = new THREE.Fog(0x000814, 50, 150)
+    scene.background = new THREE.Color(0x001122)
+    scene.fog = new THREE.Fog(0x001122, 50, 150)
     sceneRef.current = scene
 
     // カメラのセットアップ
@@ -99,9 +99,24 @@ export default function ParticleScene() {
       targetPositions[i * 3 + 1] = positions[i * 3 + 1]
       targetPositions[i * 3 + 2] = positions[i * 3 + 2]
 
-      colors[i * 3] = 0.1
-      colors[i * 3 + 1] = 0.3
-      colors[i * 3 + 2] = 0.9
+      // 青・緑・紫のグラデーション
+      const colorChoice = Math.random()
+      if (colorChoice < 0.33) {
+        // 青系
+        colors[i * 3] = 0.1 + Math.random() * 0.2
+        colors[i * 3 + 1] = 0.3 + Math.random() * 0.2
+        colors[i * 3 + 2] = 0.8 + Math.random() * 0.2
+      } else if (colorChoice < 0.66) {
+        // 緑系
+        colors[i * 3] = 0.1 + Math.random() * 0.2
+        colors[i * 3 + 1] = 0.7 + Math.random() * 0.3
+        colors[i * 3 + 2] = 0.2 + Math.random() * 0.2
+      } else {
+        // 紫系
+        colors[i * 3] = 0.5 + Math.random() * 0.3
+        colors[i * 3 + 1] = 0.1 + Math.random() * 0.2
+        colors[i * 3 + 2] = 0.7 + Math.random() * 0.3
+      }
 
       sizes[i] = Math.random() * 0.5 + 0.1
     }
@@ -178,7 +193,7 @@ export default function ParticleScene() {
       duration: 3,
       ease: "power2.inOut",
       onStart: () => {
-        const textPositions = getTextPositions('SHO43', 8)
+        const textPositions = getTextPositions('SHO43', 12)
         const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
         
         for (let i = 0; i < Math.min(textPositions.length, maxParticleCount); i++) {
@@ -201,16 +216,16 @@ export default function ParticleScene() {
       duration: 3,
       ease: "power2.out",
       onStart: () => {
-        const introText = 'テキストテキスト'
-        const textPositions = getTextPositions(introText, 4)
+        const introText = 'Blockchain Developer'
+        const textPositions = getTextPositions(introText, 5)
         const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
         
         // 複数行のテキスト配置
-        const lines = ['ブロックチェーン開発者', 'Solanaエキスパート', 'コミュニティマネージャー']
+        const lines = ['Blockchain Developer', 'Solana Expert', 'Community Manager']
         let totalIndex = 0
         
         lines.forEach((line, lineIndex) => {
-          const linePositions = getTextPositions(line, 3)
+          const linePositions = getTextPositions(line, 5)
           linePositions.forEach((pos, i) => {
             if (totalIndex < maxParticleCount) {
               posAttr.setXYZ(
@@ -282,13 +297,13 @@ export default function ParticleScene() {
       duration: 3,
       ease: "expo.out",
       onStart: () => {
-        const projects = ['プロジェクト1', 'プロジェクト2', 'プロジェクト3']
+        const projects = ['SCANNNER BCG', 'Web3 Projects', 'Community Building']
         const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
         let particleIndex = 0
         
         projects.forEach((project, index) => {
           const z = -index * 15
-          const textPositions = getTextPositions(project, 4)
+          const textPositions = getTextPositions(project, 6)
           
           textPositions.forEach((pos) => {
             if (particleIndex < maxParticleCount) {
@@ -320,8 +335,8 @@ export default function ParticleScene() {
       duration: 2,
       ease: "power2.out",
       onStart: () => {
-        const contactInfo = 'CONTACT'
-        const textPositions = getTextPositions(contactInfo, 6)
+        const contactInfo = 'CONTACT ME'
+        const textPositions = getTextPositions(contactInfo, 10)
         const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
         
         // グリッチエフェクト風の配置
@@ -460,10 +475,6 @@ export default function ParticleScene() {
       ref={mountRef} 
       className="fixed inset-0 w-full h-full"
       style={{ touchAction: 'none' }}
-    >
-      <div className="absolute top-4 left-4 text-white text-sm opacity-50">
-        Phase: {PHASES[currentPhase]?.name || 'loading'}
-      </div>
-    </div>
+    />
   )
 }
