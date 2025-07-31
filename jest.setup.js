@@ -1,4 +1,5 @@
 // Global setup for Jest tests
+import '@testing-library/jest-dom';
 
 // Next/imageのモックを設定
 jest.mock('next/image', () => ({

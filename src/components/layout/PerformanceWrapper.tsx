@@ -35,7 +35,7 @@ export default function PerformanceWrapper({
       }
       
       // requestIdleCallbackが利用可能な場合は使用（ブラウザがアイドル状態の時に実行）
-      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      if (typeof window !== 'undefined' && window.requestIdleCallback && typeof window.requestIdleCallback === 'function') {
         window.requestIdleCallback(() => {
           if (isMounted) setIsLoaded(true);
         });

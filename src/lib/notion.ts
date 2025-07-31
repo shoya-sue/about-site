@@ -40,18 +40,21 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
 
   // レスポンスからブログ記事のデータを抽出する
   const posts = response.results.map((page) => {
-    const properties = page.properties;
+    if (!('properties' in page)) {
+      return null;
+    }
+    const properties = page.properties as any;
     
     return {
       id: page.id,
-      title: properties.Title.title[0]?.plain_text || 'Untitled',
-      excerpt: properties.Excerpt.rich_text[0]?.plain_text || '',
-      date: properties.Date.date?.start || '',
-      category: properties.Category.select?.name || 'Uncategorized',
-      coverImage: properties.Cover?.files[0]?.file?.url || '',
-      slug: properties.Slug.rich_text[0]?.plain_text || '',
+      title: properties.Title?.title?.[0]?.plain_text || 'Untitled',
+      excerpt: properties.Excerpt?.rich_text?.[0]?.plain_text || '',
+      date: properties.Date?.date?.start || '',
+      category: properties.Category?.select?.name || 'Uncategorized',
+      coverImage: properties.Cover?.files?.[0]?.file?.url || '',
+      slug: properties.Slug?.rich_text?.[0]?.plain_text || '',
     } as BlogPost;
-  });
+  }).filter((post): post is BlogPost => post !== null);
 
   return posts;
 }
@@ -64,17 +67,22 @@ export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
 export async function getBlogPostById(pageId: string): Promise<{ post: BlogPost; markdown: string }> {
   // ページ（記事）の詳細を取得する
   const page = await notion.pages.retrieve({ page_id: pageId });
-  const properties = page.properties;
+  
+  if (!('properties' in page)) {
+    throw new Error('Page properties not found');
+  }
+  
+  const properties = page.properties as any;
   
   // ブログ記事のデータを作成する
   const post: BlogPost = {
     id: page.id,
-    title: properties.Title.title[0]?.plain_text || 'Untitled',
-    excerpt: properties.Excerpt.rich_text[0]?.plain_text || '',
-    date: properties.Date.date?.start || '',
-    category: properties.Category.select?.name || 'Uncategorized',
-    coverImage: properties.Cover?.files[0]?.file?.url || '',
-    slug: properties.Slug.rich_text[0]?.plain_text || '',
+    title: properties.Title?.title?.[0]?.plain_text || 'Untitled',
+    excerpt: properties.Excerpt?.rich_text?.[0]?.plain_text || '',
+    date: properties.Date?.date?.start || '',
+    category: properties.Category?.select?.name || 'Uncategorized',
+    coverImage: properties.Cover?.files?.[0]?.file?.url || '',
+    slug: properties.Slug?.rich_text?.[0]?.plain_text || '',
   };
 
   // ページのブロックをマークダウンに変換する

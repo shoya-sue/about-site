@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // 静的エクスポートを有効化
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -13,7 +14,7 @@ const nextConfig = {
   },
   // パフォーマンス最適化
   experimental: {
-    optimizeCss: true, // CSSの最適化
+    optimizeCss: false, // CSSの最適化を無効化
     optimizePackageImports: ['lucide-react', '@/components/ui'], // パッケージインポートの最適化
   },
   // 静的アセットのキャッシュ最適化
