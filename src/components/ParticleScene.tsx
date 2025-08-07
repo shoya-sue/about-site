@@ -44,18 +44,18 @@ export default function ParticleScene() {
 
     // シーンのセットアップ（ダークブルーの背景）
     const scene = new THREE.Scene()
-    scene.background = new THREE.Color(0x001122)
-    scene.fog = new THREE.Fog(0x001122, 50, 150)
+    scene.background = new THREE.Color(0x000814)
+    scene.fog = new THREE.Fog(0x000814, 40, 120) // フォグの範囲を調整
     sceneRef.current = scene
 
-    // カメラのセットアップ
+    // カメラのセットアップ（1920x1080に最適化）
     const camera = new THREE.PerspectiveCamera(
-      75,
+      75, // 標準的な視野角
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     )
-    camera.position.z = 50
+    camera.position.z = 45 // 適度な距離
     cameraRef.current = camera
 
     // レンダラーのセットアップ
@@ -68,17 +68,18 @@ export default function ParticleScene() {
     mountRef.current.appendChild(renderer.domElement)
     rendererRef.current = renderer
 
-    // ポストプロセッシング
+    // ポストプロセッシング（Bloomを一時的に無効化）
     const composer = new EffectComposer(renderer)
     composer.addPass(new RenderPass(scene, camera))
     
-    const bloomEffect = new BloomEffect({
-      intensity: 2.5,
-      luminanceThreshold: 0.1,
-      luminanceSmoothing: 0.025,
-      mipmapBlur: true
-    })
-    composer.addPass(new EffectPass(camera, bloomEffect))
+    // Bloomエフェクトをコメントアウト
+    // const bloomEffect = new BloomEffect({
+    //   intensity: 1.2,
+    //   luminanceThreshold: 0.3,
+    //   luminanceSmoothing: 0.025,
+    //   mipmapBlur: true
+    // })
+    // composer.addPass(new EffectPass(camera, bloomEffect))
     composerRef.current = composer
 
     // パーティクルシステムの作成
@@ -88,37 +89,39 @@ export default function ParticleScene() {
     const sizes = new Float32Array(maxParticleCount)
     const targetPositions = new Float32Array(maxParticleCount * 3)
 
-    // 初期位置
-    const initialPositions = getRandomPositions(maxParticleCount)
+    // 初期位置（画面全体に広がるように調整）
+    const initialPositions = getRandomPositions(maxParticleCount, 60) // 適度な範囲
     for (let i = 0; i < maxParticleCount; i++) {
+      // positionにはランダムな初期位置を設定
       positions[i * 3] = initialPositions[i].x
       positions[i * 3 + 1] = initialPositions[i].y
-      positions[i * 3 + 2] = initialPositions[i].z
+      positions[i * 3 + 2] = initialPositions[i].z * 0.4
 
-      targetPositions[i * 3] = positions[i * 3]
-      targetPositions[i * 3 + 1] = positions[i * 3 + 1]
-      targetPositions[i * 3 + 2] = positions[i * 3 + 2]
+      // targetPositionも最初は同じ位置に設定（後でSHO43に変更）
+      targetPositions[i * 3] = initialPositions[i].x
+      targetPositions[i * 3 + 1] = initialPositions[i].y
+      targetPositions[i * 3 + 2] = initialPositions[i].z * 0.4
 
-      // 青・緑・紫のグラデーション
+      // より明るい色（シアン・マゼンタ・イエロー系）のグラデーション
       const colorChoice = Math.random()
       if (colorChoice < 0.33) {
-        // 青系
-        colors[i * 3] = 0.1 + Math.random() * 0.2
-        colors[i * 3 + 1] = 0.3 + Math.random() * 0.2
-        colors[i * 3 + 2] = 0.8 + Math.random() * 0.2
-      } else if (colorChoice < 0.66) {
-        // 緑系
-        colors[i * 3] = 0.1 + Math.random() * 0.2
+        // シアン系（明るい青緑）
+        colors[i * 3] = 0.3 + Math.random() * 0.4
         colors[i * 3 + 1] = 0.7 + Math.random() * 0.3
-        colors[i * 3 + 2] = 0.2 + Math.random() * 0.2
-      } else {
-        // 紫系
-        colors[i * 3] = 0.5 + Math.random() * 0.3
-        colors[i * 3 + 1] = 0.1 + Math.random() * 0.2
+        colors[i * 3 + 2] = 0.9 + Math.random() * 0.1
+      } else if (colorChoice < 0.66) {
+        // マゼンタ系（明るいピンク紫）
+        colors[i * 3] = 0.9 + Math.random() * 0.1
+        colors[i * 3 + 1] = 0.3 + Math.random() * 0.4
         colors[i * 3 + 2] = 0.7 + Math.random() * 0.3
+      } else {
+        // イエロー系（明るい黄色）
+        colors[i * 3] = 0.9 + Math.random() * 0.1
+        colors[i * 3 + 1] = 0.8 + Math.random() * 0.2
+        colors[i * 3 + 2] = 0.3 + Math.random() * 0.3
       }
 
-      sizes[i] = Math.random() * 0.5 + 0.1
+      sizes[i] = Math.random() * 0.4 + 0.2 // 適度なサイズ
     }
 
     const geometry = new THREE.BufferGeometry()
@@ -154,7 +157,7 @@ export default function ParticleScene() {
           pos.z += sin(uTime + position.z * 0.1) * 0.1;
           
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-          gl_PointSize = size * 300.0 * uPixelRatio / -mvPosition.z;
+          gl_PointSize = size * 350.0 * uPixelRatio / -mvPosition.z; // 適度なサイズ
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -169,8 +172,8 @@ export default function ParticleScene() {
           // パルス効果
           float pulse = sin(uTime * 2.0) * 0.5 + 0.5;
           
-          vec3 finalColor = vColor * strength * (1.5 + pulse * 0.5);
-          gl_FragColor = vec4(finalColor, strength);
+          vec3 finalColor = vColor * strength * (2.0 + pulse * 0.5);
+          gl_FragColor = vec4(finalColor, strength * 1.5); // 輝度を上げる
         }
       `,
       transparent: true,
@@ -187,12 +190,28 @@ export default function ParticleScene() {
     const timeline = gsap.timeline({ repeat: -1 })
     timelineRef.current = timeline
 
-    // 初期状態：パーティクルを配置
+    // 初期状態：パーティクルを配置（適度なサイズのテキスト）
     const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
-    const initialTextPositions = getTextPositions('SHO43', 12)
-    for (let i = 0; i < Math.min(initialTextPositions.length, maxParticleCount); i++) {
-      posAttr.setXYZ(i, initialTextPositions[i].x, initialTextPositions[i].y, initialTextPositions[i].z)
+    const initialTextPositions = getTextPositions('SHO43', 15) // 適度なテキストサイズ
+    
+    // 文字を形成するパーティクル
+    for (let i = 0; i < initialTextPositions.length && i < maxParticleCount; i++) {
+      posAttr.setXYZ(i, 
+        initialTextPositions[i].x * 1.2, // 適度なスケール
+        initialTextPositions[i].y * 1.2, 
+        initialTextPositions[i].z)
     }
+    
+    // 残りのパーティクルは文字から離れた位置に配置（背景として）
+    for (let i = initialTextPositions.length; i < maxParticleCount; i++) {
+      const angle = Math.random() * Math.PI * 2
+      const radius = Math.random() * 20 + 30 // 文字から離れた位置
+      posAttr.setXYZ(i, 
+        Math.cos(angle) * radius,
+        Math.sin(angle) * radius,
+        (Math.random() - 0.5) * 20 - 10) // Z軸を後ろに
+    }
+    
     posAttr.needsUpdate = true
 
     // フェーズ1: イントロ（SHO43の形成）- 0-5秒
@@ -218,7 +237,7 @@ export default function ParticleScene() {
       ease: "power2.out",
       onStart: () => {
         const introText = 'Blockchain Developer'
-        const textPositions = getTextPositions(introText, 5)
+        const textPositions = getTextPositions(introText, 7) // 適度なテキストサイズ
         const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
         
         // 複数行のテキスト配置
@@ -226,19 +245,27 @@ export default function ParticleScene() {
         let totalIndex = 0
         
         lines.forEach((line, lineIndex) => {
-          const linePositions = getTextPositions(line, 5)
+          const linePositions = getTextPositions(line, 7) // 適度なテキストサイズ
           linePositions.forEach((pos, i) => {
             if (totalIndex < maxParticleCount) {
               posAttr.setXYZ(
                 totalIndex,
-                pos.x,
-                pos.y - lineIndex * 8,
+                pos.x, // スケールを調整
+                pos.y - lineIndex * 10, // 適度な間隔
                 pos.z
               )
               totalIndex++
             }
           })
         })
+        
+        // 残りのパーティクルをテキストから離れた位置に配置
+        for (let i = totalIndex; i < maxParticleCount; i++) {
+          const lineIndex = Math.floor(Math.random() * 3)
+          const x = (Math.random() - 0.5) * 60 // より広い範囲
+          const y = -lineIndex * 10 + (Math.random() - 0.5) * 30
+          posAttr.setXYZ(i, x, y, (Math.random() - 0.5) * 20 - 10) // 背景に
+        }
         
         posAttr.needsUpdate = true
         setCurrentPhase(1)
@@ -281,6 +308,16 @@ export default function ParticleScene() {
           })
         })
         
+        // 残りのパーティクルを背景に円形配置
+        for (let i = particleIndex; i < maxParticleCount; i++) {
+          const angle = (i / maxParticleCount) * Math.PI * 2
+          const r = Math.random() * 30 + 40 // スキルから離れた位置
+          posAttr.setXYZ(i, 
+            Math.cos(angle) * r,
+            Math.sin(angle) * r,
+            (Math.random() - 0.5) * 20 - 10) // 背景に
+        }
+        
         posAttr.needsUpdate = true
         setCurrentPhase(2)
       }
@@ -303,14 +340,14 @@ export default function ParticleScene() {
         let particleIndex = 0
         
         projects.forEach((project, index) => {
-          const z = -index * 15
-          const textPositions = getTextPositions(project, 6)
+          const z = -index * 10 // Z軸の間隔
+          const textPositions = getTextPositions(project, 8) // 適度なテキストサイズ
           
           textPositions.forEach((pos) => {
             if (particleIndex < maxParticleCount) {
               posAttr.setXYZ(
                 particleIndex,
-                pos.x,
+                pos.x, // スケールを調整
                 pos.y,
                 pos.z + z
               )
@@ -318,6 +355,16 @@ export default function ParticleScene() {
             }
           })
         })
+        
+        // 残りのパーティクルをプロジェクトから離れた位置に配置
+        for (let i = particleIndex; i < maxParticleCount; i++) {
+          const projectIndex = Math.floor(Math.random() * 3)
+          const z = -projectIndex * 10 - 15 // さらに後ろに
+          posAttr.setXYZ(i, 
+            (Math.random() - 0.5) * 60, // より広い範囲
+            (Math.random() - 0.5) * 40,
+            z + (Math.random() - 0.5) * 5)
+        }
         
         posAttr.needsUpdate = true
         setCurrentPhase(3)
@@ -337,21 +384,33 @@ export default function ParticleScene() {
       ease: "power2.out",
       onStart: () => {
         const contactInfo = 'CONTACT ME'
-        const textPositions = getTextPositions(contactInfo, 10)
+        const textPositions = getTextPositions(contactInfo, 12) // 適度なテキストサイズ
         const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
         
         // グリッチエフェクト風の配置
-        textPositions.forEach((pos, i) => {
-          if (i < maxParticleCount) {
+        let idx = 0
+        textPositions.forEach((pos) => {
+          if (idx < maxParticleCount) {
             const glitchOffset = Math.random() * 2 - 1
             posAttr.setXYZ(
-              i,
-              pos.x + glitchOffset,
-              pos.y,
+              idx,
+              pos.x * 1.2 + glitchOffset, // 適度なスケール
+              pos.y * 1.2,
               pos.z + glitchOffset
             )
+            idx++
           }
         })
+        
+        // 残りのパーティクルをCONTACT MEから離れた位置に配置
+        for (let i = idx; i < maxParticleCount; i++) {
+          const angle = (i / maxParticleCount) * Math.PI * 2
+          const r = Math.random() * 20 + 35 // 文字から離れた位置
+          posAttr.setXYZ(i, 
+            Math.cos(angle) * r + (Math.random() - 0.5) * 5,
+            Math.sin(angle) * r + (Math.random() - 0.5) * 5,
+            (Math.random() - 0.5) * 20 - 10) // 背景に
+        }
         
         posAttr.needsUpdate = true
         setCurrentPhase(4)
@@ -407,19 +466,25 @@ export default function ParticleScene() {
       onStart: () => {
         const posAttr = geometry.getAttribute('targetPosition') as THREE.BufferAttribute
         
-        // 次のループのためにSHO43の位置を事前に設定
-        const textPositions = getTextPositions('SHO43', 12)
-        for (let i = 0; i < Math.min(textPositions.length, maxParticleCount); i++) {
-          posAttr.setXYZ(i, textPositions[i].x, textPositions[i].y, textPositions[i].z)
+        // 次のループのためにSHO43の位置を事前に設定（Z軸を0にリセット）
+        const textPositions = getTextPositions('SHO43', 15) // 適度なテキストサイズ
+        
+        // 文字を形成するパーティクル
+        for (let i = 0; i < textPositions.length && i < maxParticleCount; i++) {
+          posAttr.setXYZ(i, 
+            textPositions[i].x * 1.2, // 適度なスケール
+            textPositions[i].y * 1.2, 
+            0)
         }
         
-        // 残りのパーティクルは周囲にランダムに配置
-        const randomPositions = getRandomPositions(maxParticleCount - textPositions.length, 40)
+        // 残りのパーティクルはSHO43から離れた位置に配置
         for (let i = textPositions.length; i < maxParticleCount; i++) {
-          const idx = i - textPositions.length
-          if (idx < randomPositions.length) {
-            posAttr.setXYZ(i, randomPositions[idx].x, randomPositions[idx].y, randomPositions[idx].z)
-          }
+          const angle = (i / maxParticleCount) * Math.PI * 2
+          const radius = Math.random() * 20 + 30 // 文字から離れた位置
+          posAttr.setXYZ(i, 
+            Math.cos(angle) * radius,
+            Math.sin(angle) * radius,
+            (Math.random() - 0.5) * 20 - 10) // 背景に
         }
         
         posAttr.needsUpdate = true
@@ -445,9 +510,10 @@ export default function ParticleScene() {
       }
       colorAttr.needsUpdate = true
 
-      // カメラの動き
-      camera.position.x = Math.sin(elapsedTime * 0.1) * 5
-      camera.position.y = Math.cos(elapsedTime * 0.1) * 5
+      // カメラは固定位置に保つ
+      camera.position.x = 0
+      camera.position.y = 0
+      camera.position.z = 45
       camera.lookAt(0, 0, 0)
 
       composer.render()

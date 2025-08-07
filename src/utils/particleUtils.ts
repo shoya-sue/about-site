@@ -38,8 +38,8 @@ export function getTextPositions(text: string, fontSize: number = 10): ParticleP
       
       if (brightness > 128) {
         positions.push({
-          x: (x - canvas.width / 2) * 0.1,
-          y: (canvas.height / 2 - y) * 0.1,
+          x: (x - canvas.width / 2) * 0.15, // スケールを大きく
+          y: (canvas.height / 2 - y) * 0.15,
           z: (Math.random() - 0.5) * 2
         })
       }
